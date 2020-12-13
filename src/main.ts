@@ -88,7 +88,7 @@ async function loadExample(hashName: string) {
 
     const linkNode = document.createElement('a');
     linkNode.target = "_blank";
-    linkNode.href = `https://github.com/austinEng/webgpu-samples/tree/master/src/examples/${name}.ts`;
+    linkNode.href = `https://github.com/FreeGIS/webgpu_learning/tree/master/src/examples/${name}.ts`;
     linkNode.innerHTML = linkNode.href;
     descriptionContainer.appendChild(linkNode);
 

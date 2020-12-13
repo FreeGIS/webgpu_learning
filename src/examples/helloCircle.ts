@@ -1,7 +1,8 @@
 import glslangModule from '../glslang';
 
 export const title = 'Hello Circle';
-export const description = '渲染一个边界平滑的圆，本示例主要练习Uniform定义与在着色器使用，drawindex(根据顶点索引绘制），mix,distance函数调用示例，wgsl builtin内置 变量的应用';
+export const description = `渲染一个边界平滑的圆，本示例主要练习WebGPU中Uniform定义与在着色器使用，
+以及WGSL中使用builtin内置变量方法，if/elseif/else逻辑控制，+-运算符以及类型强转，以及mix,distance,smoonStep等内建函数使用`;
 
 export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
   //获取显卡适配器
@@ -281,8 +282,8 @@ export const wgslShaders = {
   fn main() -> void {
     var dis:f32= distance(coord.xy,uniforms.circle.xy);
     # 由于强类型转换问题，直接用uniforms.circle.z-3.0报错
-    var tol:f32 = 3.0;
-    var solid:f32 = uniforms.circle.z-tol;
+    # 必须使用类型强转，+-等表达式只能在同类型之间应用。
+    var solid:f32 = uniforms.circle.z-f32(3);
     if (dis<solid) {
       outColor=vec4<f32>(1.0,0.0,0.0,1.0);
     }

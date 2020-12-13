@@ -1,11 +1,11 @@
 {
-  "name": "webgpu-samples",
-  "version": "0.0.2",
+  "name": "webgpu-learning",
+  "version": "0.0.1",
   "description": "Samples using the Web GPU API",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/austinEng/webgpu-samples.git"
+    "url": "git@github.com:FreeGIS/webgpu_learning.git"
   },
   "scripts": {
     "build": "rm -rf dist gen && webpack --config build/webpack.config.js",
