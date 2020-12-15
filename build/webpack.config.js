@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const exampleList = require('./exampleList');
 const exampleNames = exampleList.map(f => path.basename(f));
 
