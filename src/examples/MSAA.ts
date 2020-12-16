@@ -1,7 +1,7 @@
 import glslangModule from '../glslang';
 
-export const title = 'Hello Triangle';
-export const description = '渲染一个基本的三角形，WebGPU入门，练习熟悉基本的GPU对象及渲染基本步骤。';
+export const title = 'MSAA';
+export const description = '渲染一个基本的三角形，多重采样，减轻图形边界的几何体走样。';
 
 export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
   //获取显卡适配器

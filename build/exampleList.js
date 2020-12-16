@@ -3,7 +3,7 @@ module.exports = [
     './examples/helloCircle',
     './examples/drawIndexed',
     './examples/MSAA',
-      /*'./examples/rotatingCube',
+    /*'./examples/rotatingCube',
     './examples/twoCubes',
     './examples/instancedCube',
     './examples/texturedCube',
