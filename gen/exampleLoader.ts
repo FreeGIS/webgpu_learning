@@ -9,5 +9,8 @@
   export const drawIndexed = async () => (await import('../src/examples/drawIndexed'));
   
 
-  export const msaa = async () => (await import('../src/examples/msaa'));
+  export const MSAA = async () => (await import('../src/examples/MSAA'));
+  
+
+  export const rotatingCube = async () => (await import('../src/examples/rotatingCube'));
   
