@@ -122,7 +122,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
       },
     ],
     depthStencilAttachment: {
-      //深度测试渲染后保留内容存在depthTexture中
+      //深度测试渲染后保留内容存在depthTexture中，必填
       attachment: depthTexture.createView(),
       /* depthCompare: "less",则在深度测试时，gpu会将fragment的z值（范围为[0.0-1.0]）与
       这里设置的depthLoadValue值（这里为1.0）比较。其中使用depthCompare定义的函数（
