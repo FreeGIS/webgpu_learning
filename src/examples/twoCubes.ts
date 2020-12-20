@@ -3,9 +3,7 @@ import { cubeVertexArray, cubeVertexSize, cubeColorOffset, cubePositionOffset } 
 import glslangModule from '../glslang';
 
 export const title = 'Two Cubes';
-export const description = 'This example shows some of the alignment requirements \
-                            involved when updating and binding multiple slices of a \
-                            uniform buffer.';
+export const description = 'uniform buffer设置offset，偏移量必须对齐256.';
 
 export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
   const adapter = await navigator.gpu.requestAdapter();
@@ -123,7 +121,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
 
   const matrixSize = 4 * 16;  // 4x4 matrix
   const offset = 256; // uniformBindGroup offset must be 256-byte aligned
-  const uniformBufferSize = offset + matrixSize;
+  const uniformBufferSize = offset + matrixSize;//uniform每一行都是256，第一行占位256（实际只有4*16）；第二行实际是第一行占位（256）+自身实际占位
 
   const uniformBuffer = device.createBuffer({
     size: uniformBufferSize,

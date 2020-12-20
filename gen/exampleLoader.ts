@@ -14,3 +14,6 @@
 
   export const rotatingCube = async () => (await import('../src/examples/rotatingCube'));
   
+
+  export const twoCubes = async () => (await import('../src/examples/twoCubes'));
+  

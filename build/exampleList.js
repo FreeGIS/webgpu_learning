@@ -4,11 +4,12 @@ module.exports = [
     './examples/drawIndexed',
     './examples/MSAA',
     './examples/rotatingCube',
-    /*'./examples/twoCubes',
-    './examples/instancedCube',
+    './examples/twoCubes',
+    /*'./examples/instancedCube',
     './examples/texturedCube',
     './examples/fractalCube',
     './examples/computeBoids',
     './examples/animometer',
-    './examples/videoUploading',*/
+    './examples/videoUploading',
+     './examples/imageBlur',*/
 ];
