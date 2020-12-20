@@ -3,7 +3,7 @@ import { cubeVertexArray, cubeVertexSize, cubeUVOffset, cubePositionOffset } fro
 import glslangModule from '../glslang';
 
 export const title = 'Textured Cube';
-export const description = 'This example shows how to bind and sample textures.';
+export const description = '示例如何绑定一个纹理';
 
 export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
   const adapter = await navigator.gpu.requestAdapter();

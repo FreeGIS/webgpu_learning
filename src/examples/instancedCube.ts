@@ -3,7 +3,7 @@ import { cubeVertexArray, cubeVertexSize, cubeColorOffset, cubePositionOffset } 
 import glslangModule from '../glslang';
 
 export const title = 'Instanced Cube';
-export const description = 'This example shows the use of instancing.';
+export const description = '绘制Instanced实例，注意glsl和wgsl内置实例序号的写法以及uniform参数的组织';
 
 export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
   const adapter = await navigator.gpu.requestAdapter();
@@ -122,8 +122,10 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
 
   const xCount = 4;
   const yCount = 4;
+  //实例数量
   const numInstances = xCount * yCount;
   const matrixFloatCount = 16; // 4x4 matrix
+  //每个uniform占位长度，16个示例占位总长度
   const matrixSize = 4 * matrixFloatCount;
   const uniformBufferSize = numInstances * matrixSize;
 
@@ -148,6 +150,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
   let step = 4.0;
 
   let m = 0;
+  //设置每个Instanced偏移量
   for (let x = 0; x < xCount; x++) {
     for (let y = 0; y < yCount; y++) {
       modelMatrices[m] = mat4.create();
@@ -203,6 +206,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     passEncoder.setVertexBuffer(0, verticesBuffer);
 
     passEncoder.setBindGroup(0, uniformBindGroup);
+    //绘制带实例的api
     passEncoder.draw(36, numInstances, 0, 0);
 
     passEncoder.endPass();
@@ -222,7 +226,7 @@ layout(location = 0) in vec4 position;
 layout(location = 1) in vec4 color;
 
 layout(location = 0) out vec4 fragColor;
-
+//glsl使用内置的获取实例号 api
 void main() {
   gl_Position = uniforms.modelViewProjectionMatrix[gl_InstanceIndex] * position;
   fragColor = color;
@@ -244,7 +248,7 @@ export const wgslShaders = {
 };
 
 [[binding(0), set(0)]] var<uniform> uniforms : Uniforms;
-
+# wgsl使用内置的获取实例号 api
 [[builtin(instance_idx)]] var<in> instanceIdx : i32;
 [[location(0)]] var<in> position : vec4<f32>;
 [[location(1)]] var<in> color : vec4<f32>;

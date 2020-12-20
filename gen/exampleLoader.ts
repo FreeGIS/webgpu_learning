@@ -17,3 +17,9 @@
 
   export const twoCubes = async () => (await import('../src/examples/twoCubes'));
   
+
+  export const instancedCube = async () => (await import('../src/examples/instancedCube'));
+  
+
+  export const texturedCube = async () => (await import('../src/examples/texturedCube'));
+  
