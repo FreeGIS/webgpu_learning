@@ -56,23 +56,23 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     vertexStage: {
       module: useWGSL
         ? device.createShaderModule({
-            code: wgslShaders.vertex,
-          })
+          code: wgslShaders.vertex,
+        })
         : device.createShaderModule({
-            code: glslShaders.vertex,
-            transform: (glsl) => glslang.compileGLSL(glsl, "vertex"),
-          }),
+          code: glslShaders.vertex,
+          transform: (glsl) => glslang.compileGLSL(glsl, "vertex"),
+        }),
       entryPoint: "main",
     },
     fragmentStage: {
       module: useWGSL
         ? device.createShaderModule({
-            code: wgslShaders.fragment,
-          })
+          code: wgslShaders.fragment,
+        })
         : device.createShaderModule({
-            code: glslShaders.fragment,
-            transform: (glsl) => glslang.compileGLSL(glsl, "fragment"),
-          }),
+          code: glslShaders.fragment,
+          transform: (glsl) => glslang.compileGLSL(glsl, "fragment"),
+        }),
       entryPoint: "main",
     },
 
@@ -142,6 +142,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     size: uniformBufferSize,
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
   });
+
 
   let cubeTexture: GPUTexture;
   {
@@ -226,10 +227,8 @@ layout(location = 0) in vec4 position;
 layout(location = 1) in vec2 uv;
 
 layout(location = 0) out vec2 fragUV;
-layout(location = 1) out vec4 fragPosition;
 
 void main() {
-  fragPosition = 0.5 * (position + vec4(1.0));
   gl_Position = uniforms.modelViewProjectionMatrix * position;
   fragUV = uv;
 }
@@ -240,11 +239,10 @@ layout(set = 0, binding = 1) uniform sampler mySampler;
 layout(set = 0, binding = 2) uniform texture2D myTexture;
 
 layout(location = 0) in vec2 fragUV;
-layout(location = 1) in vec4 fragPosition;
 layout(location = 0) out vec4 outColor;
 
 void main() {
-  outColor =  texture(sampler2D(myTexture, mySampler), fragUV) * fragPosition;
+  outColor =  texture(sampler2D(myTexture, mySampler), fragUV);
 }
 `,
 };
@@ -261,11 +259,9 @@ export const wgslShaders = {
 
 [[builtin(position)]] var<out> Position : vec4<f32>;
 [[location(0)]] var<out> fragUV : vec2<f32>;
-[[location(1)]] var<out> fragPosition: vec4<f32>;
 
 [[stage(vertex)]]
 fn main() -> void {
-  fragPosition = 0.5 * (position + vec4<f32>(1.0, 1.0, 1.0, 1.0));
   Position = uniforms.modelViewProjectionMatrix * position;
   fragUV = uv;
   return;
@@ -276,12 +272,11 @@ fn main() -> void {
 [[binding(2), set(0)]] var<uniform_constant> myTexture: texture_sampled_2d<f32>;
 
 [[location(0)]] var<in> fragUV: vec2<f32>;
-[[location(1)]] var<in> fragPosition: vec4<f32>;
 [[location(0)]] var<out> outColor : vec4<f32>;
 
 [[stage(fragment)]]
 fn main() -> void {
-  outColor =  textureSample(myTexture, mySampler, fragUV) * fragPosition;
+  outColor =  textureSample(myTexture, mySampler, fragUV);
   return;
 }
 `,

@@ -3,8 +3,7 @@ import { cubeVertexArray, cubeVertexSize, cubeColorOffset, cubeUVOffset, cubePos
 import glslangModule from '../glslang';
 
 export const title = 'Fractal Cube';
-export const description = 'This example uses the previous frame\'s rendering result \
-              as the source texture for the next frame.';
+export const description = '本示例使用前一帧的渲染结果作为下一帧的源纹理。';
 
 export async function init(canvas: HTMLCanvasElement) {
   const adapter = await navigator.gpu.requestAdapter();
@@ -180,6 +179,7 @@ export async function init(canvas: HTMLCanvasElement) {
     passEncoder.draw(36, 1, 0, 0);
     passEncoder.endPass();
 
+    //复制纹理，下一帧绘制使用
     commandEncoder.copyTextureToTexture({
       texture: swapChainTexture,
     }, {
