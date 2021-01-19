@@ -1,5 +1,5 @@
 import glslangModule from '../glslang';
-
+import { createBuffer }from '../gpuEngine';
 export const title = 'Hello Triangle';
 export const description = '渲染一个基本的三角形，WebGPU入门，练习熟悉基本的GPU对象及渲染基本步骤。';
 
@@ -28,17 +28,8 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     -0.5, -0.5,
     0.5, -0.5
   ]);
-  const verticesBuffer = device.createBuffer({
-    size: vertexArray.byteLength,
-    usage: GPUBufferUsage.VERTEX,
-    mappedAtCreation: true,
-  });
-  new Float32Array(verticesBuffer.getMappedRange()).set(vertexArray);
-  verticesBuffer.unmap();
-
-
-
-
+  const verticesBuffer = createBuffer(device,vertexArray,GPUBufferUsage.VERTEX);
+  
   //渲染管线
   const pipeline = device.createRenderPipeline({
     vertexStage: {
