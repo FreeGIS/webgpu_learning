@@ -100,7 +100,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
       depth: 1
     },
     format: "depth24plus-stencil8",
-    usage: GPUTextureUsage.OUTPUT_ATTACHMENT
+    usage: GPUTextureUsage.RENDER_ATTACHMENT
   });
 
   const renderPassDescriptor: GPURenderPassDescriptor = {
@@ -190,7 +190,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
 
   return function frame() {
     updateTransformationMatrix();
-    device.defaultQueue.writeBuffer(
+    device.queue.writeBuffer(
       uniformBuffer,
       0,
       mvpMatricesData.buffer,
@@ -211,7 +211,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
 
     passEncoder.endPass();
 
-    device.defaultQueue.submit([commandEncoder.finish()]);
+    device.queue.submit([commandEncoder.finish()]);
   }
 }
 
@@ -248,7 +248,7 @@ export const wgslShaders = {
 };
 
 [[binding(0), set(0)]] var<uniform> uniforms : Uniforms;
-# wgsl使用内置的获取实例号 api
+// wgsl使用内置的获取实例号 api
 [[builtin(instance_idx)]] var<in> instanceIdx : i32;
 [[location(0)]] var<in> position : vec4<f32>;
 [[location(1)]] var<in> color : vec4<f32>;

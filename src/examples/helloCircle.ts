@@ -204,7 +204,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     passEncoder.draw(vertexData.length, 1, 0, 0);
     passEncoder.endPass();
 
-    device.defaultQueue.submit([commandEncoder.finish()]);
+    device.queue.submit([commandEncoder.finish()]);
   }
 
   return frame;
@@ -271,24 +271,24 @@ export const wgslShaders = {
   };
   [[binding(1), set(0)]] var<uniform> uniforms : Uniforms;
 
-  # 内置变量，等于glsl的gl_fragcoord，必须在此声明使用
+  // 内置变量，等于glsl的gl_fragcoord，必须在此声明使用
   [[builtin(frag_coord)]] var<in> coord : vec4<f32>;
 
 
 
-  # 定义输出变量
+  // 定义输出变量
   [[location(0)]] var<out> outColor : vec4<f32>;
   [[stage(fragment)]]
   fn main() -> void {
     var dis:f32= distance(coord.xy,uniforms.circle.xy);
-    # 由于强类型转换问题，直接用uniforms.circle.z-3.0报错
-    # 必须使用类型强转，+-等表达式只能在同类型之间应用。
+    // 由于强类型转换问题，直接用uniforms.circle.z-3.0报错
+    // 必须使用类型强转，+-等表达式只能在同类型之间应用。
     var solid:f32 = uniforms.circle.z-f32(3);
     if (dis<solid) {
       outColor=vec4<f32>(1.0,0.0,0.0,1.0);
     }
     elseif(dis<=uniforms.circle.z){
-      # 注意函数大小写与glsl忽略大小写不同，函数入参类型要严格与规范文档一致，且vec类型不能简写，必须全量赋值。
+      // 注意函数大小写与glsl忽略大小写不同，函数入参类型要严格与规范文档一致，且vec类型不能简写，必须全量赋值。
       var step:f32=smoothStep(solid,uniforms.circle.z,dis);
       outColor=mix(vec4<f32>(1.0,0.0,0.0,1.0), vec4<f32>(0.0,0.0,0.0,1.0), vec4<f32>(step,step,step,step));
     }

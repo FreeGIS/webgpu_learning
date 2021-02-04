@@ -102,7 +102,7 @@ export async function init(canvas: HTMLCanvasElement) {
         format: "rgba8unorm",
         usage: GPUTextureUsage.SAMPLED | GPUTextureUsage.COPY_DST,
     });
-    device.defaultQueue.copyImageBitmapToTexture(
+    device.queue.copyImageBitmapToTexture(
         { imageBitmap }, { texture: cubeTexture },
         [imageBitmap.width, imageBitmap.height, 1]);
 
@@ -225,7 +225,7 @@ export async function init(canvas: HTMLCanvasElement) {
     let blockDim: number;
     const updateSettings = () => {
         blockDim = tileDim - (settings.filterSize - 1);
-        device.defaultQueue.writeBuffer(blurParamsBuffer, 0, new Uint32Array([settings.filterSize, blockDim]));
+        device.queue.writeBuffer(blurParamsBuffer, 0, new Uint32Array([settings.filterSize, blockDim]));
     }
     const gui = new dat.GUI({ autoPlace: false });
     gui.add(settings, 'filterSize', 1, 33).step(2).onChange(updateSettings);
@@ -274,7 +274,7 @@ export async function init(canvas: HTMLCanvasElement) {
         passEncoder.setBindGroup(0, uniformBindGroup);
         passEncoder.draw(6, 1, 0, 0);
         passEncoder.endPass();
-        device.defaultQueue.submit([commandEncoder.finish()]);
+        device.queue.submit([commandEncoder.finish()]);
     }
 }
 

@@ -153,7 +153,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     passEncoder.drawIndexed(triangleIndex.length, 1, 0, 0, 0);
 
     passEncoder.endPass();
-    device.defaultQueue.submit([commandEncoder.finish()]);
+    device.queue.submit([commandEncoder.finish()]);
   }
 
   return frame;
@@ -187,7 +187,7 @@ export const wgslShaders = {
   }
 `,
   fragment: `
-  # 定义输出变量
+  // 定义输出变量
   [[location(0)]] var<out> outColor : vec4<f32>;
   [[stage(fragment)]]
   fn main() -> void {

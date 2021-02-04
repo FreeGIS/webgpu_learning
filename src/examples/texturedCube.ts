@@ -118,7 +118,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
   const depthTexture = device.createTexture({
     size: { width: canvas.width, height: canvas.height, depth: 1 },
     format: "depth24plus-stencil8",
-    usage: GPUTextureUsage.OUTPUT_ATTACHMENT
+    usage: GPUTextureUsage.RENDER_ATTACHMENT
   });
 
   const renderPassDescriptor: GPURenderPassDescriptor = {
@@ -156,7 +156,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
       format: "rgba8unorm",
       usage: GPUTextureUsage.SAMPLED | GPUTextureUsage.COPY_DST,
     });
-    device.defaultQueue.copyImageBitmapToTexture(
+    device.queue.copyImageBitmapToTexture(
       { imageBitmap }, { texture: cubeTexture },
       [imageBitmap.width, imageBitmap.height, 1]);
   }
@@ -196,7 +196,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
 
   return function frame() {
     const transformationMatrix = getTransformationMatrix();
-    device.defaultQueue.writeBuffer(
+    device.queue.writeBuffer(
       uniformBuffer,
       0,
       transformationMatrix.buffer,
@@ -212,7 +212,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     passEncoder.setVertexBuffer(0, verticesBuffer);
     passEncoder.draw(36, 1, 0, 0);
     passEncoder.endPass();
-    device.defaultQueue.submit([commandEncoder.finish()]);
+    device.queue.submit([commandEncoder.finish()]);
   }
 
 }
@@ -269,7 +269,7 @@ fn main() -> void {
 `,
   fragment: `
 [[binding(1), set(0)]] var<uniform_constant> mySampler: sampler;
-[[binding(2), set(0)]] var<uniform_constant> myTexture: texture_sampled_2d<f32>;
+[[binding(2), set(0)]] var<uniform_constant> myTexture: texture_2d<f32>;
 
 [[location(0)]] var<in> fragUV: vec2<f32>;
 [[location(0)]] var<out> outColor : vec4<f32>;

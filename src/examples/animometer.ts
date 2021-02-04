@@ -23,7 +23,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
   const swapChain = context.configureSwapChain({
     device,
     format: swapChainFormat,
-    usage: GPUTextureUsage.COPY_DST | GPUTextureUsage.OUTPUT_ATTACHMENT
+    usage: GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT
   });
 
   const timeBindGroupLayout = device.createBindGroupLayout({
@@ -205,7 +205,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     for (let offset = 0; offset < uniformBufferData.length; offset += maxMappingLength) {
       const uploadCount = Math.min(uniformBufferData.length - offset, maxMappingLength);
 
-      device.defaultQueue.writeBuffer(
+      device.queue.writeBuffer(
         uniformBuffer,
         offset * Float32Array.BYTES_PER_ELEMENT,
         uniformBufferData.buffer,
@@ -255,7 +255,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
         startTime = timestamp;
       }
       uniformTime[0] = (timestamp - startTime) / 1000;
-      device.defaultQueue.writeBuffer(uniformBuffer, timeOffset, uniformTime.buffer);
+      device.queue.writeBuffer(uniformBuffer, timeOffset, uniformTime.buffer);
 
       renderPassDescriptor.colorAttachments[0].attachment = swapChain.getCurrentTexture().createView();
 
@@ -269,7 +269,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
       }
 
       passEncoder.endPass();
-      device.defaultQueue.submit([commandEncoder.finish()]);
+      device.queue.submit([commandEncoder.finish()]);
     }
   }
 

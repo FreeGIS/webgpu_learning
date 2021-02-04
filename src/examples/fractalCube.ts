@@ -19,7 +19,7 @@ export async function init(canvas: HTMLCanvasElement) {
   const swapChain = context.configureSwapChain({
     device,
     format: "bgra8unorm",
-    usage: GPUTextureUsage.OUTPUT_ATTACHMENT | GPUTextureUsage.COPY_SRC,
+    usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.COPY_SRC,
   });
 
   const verticesBuffer = device.createBuffer({
@@ -94,7 +94,7 @@ export async function init(canvas: HTMLCanvasElement) {
   const depthTexture = device.createTexture({
     size: { width: canvas.width, height: canvas.height, depth: 1 },
     format: "depth24plus-stencil8",
-    usage: GPUTextureUsage.OUTPUT_ATTACHMENT
+    usage: GPUTextureUsage.RENDER_ATTACHMENT
   });
 
   const renderPassDescriptor: GPURenderPassDescriptor = {
@@ -159,7 +159,7 @@ export async function init(canvas: HTMLCanvasElement) {
 
   return function frame() {
     const transformationMatrix = getTransformationMatrix();
-    device.defaultQueue.writeBuffer(
+    device.queue.writeBuffer(
       uniformBuffer,
       0,
       transformationMatrix.buffer,
@@ -190,7 +190,7 @@ export async function init(canvas: HTMLCanvasElement) {
       depth: 1,
     });
 
-    device.defaultQueue.submit([commandEncoder.finish()]);
+    device.queue.submit([commandEncoder.finish()]);
   }
 }
 

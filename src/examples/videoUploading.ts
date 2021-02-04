@@ -108,7 +108,7 @@ export async function init(canvas: HTMLCanvasElement) {
 
   return function frame() {
     createImageBitmap(video).then(videoFrame => {
-      device.defaultQueue.copyImageBitmapToTexture(
+      device.queue.copyImageBitmapToTexture(
         {imageBitmap:videoFrame, origin: {x:0, y: 0} },
         {texture: videoTexture},
         {width: video.videoWidth, height:video.videoHeight, depth: 1}
@@ -130,7 +130,7 @@ export async function init(canvas: HTMLCanvasElement) {
       passEncoder.setBindGroup(0, uniformBindGroup);
       passEncoder.draw(6, 1, 0, 0);
       passEncoder.endPass();
-      device.defaultQueue.submit([commandEncoder.finish()]);
+      device.queue.submit([commandEncoder.finish()]);
     });
   }
 }

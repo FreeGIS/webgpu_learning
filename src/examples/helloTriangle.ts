@@ -130,7 +130,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     passEncoder.draw(3, 1, 0, 0);
     passEncoder.endPass();
 
-    device.defaultQueue.submit([commandEncoder.finish()]);
+    device.queue.submit([commandEncoder.finish()]);
   }
 
   return frame;
@@ -155,7 +155,7 @@ export const glslShaders = {
 export const wgslShaders = {
   vertex: `
 [[location(0)]] var<in> a_position : vec2<f32>;
-# 内置变量，等同于webgl的gl_Position ,wgsl注释以 # 标记，该着色器没有多行注释
+// 注释又改回glsl类似的 // 之前是# 
 [[builtin(position)]] var<out> Position : vec4<f32>;
 [[stage(vertex)]]
 fn main() -> void {
@@ -165,7 +165,6 @@ fn main() -> void {
 `,
   fragment: `
 [[location(0)]] var<out> outColor : vec4<f32>;
-
 [[stage(fragment)]]
 fn main() -> void {
   outColor = vec4<f32>(1.0, 0.0, 0.0, 1.0);

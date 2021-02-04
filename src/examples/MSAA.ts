@@ -120,7 +120,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     },
     sampleCount,
     format: swapChainFormat,
-    usage: GPUTextureUsage.OUTPUT_ATTACHMENT,
+    usage: GPUTextureUsage.RENDER_ATTACHMENT,
   });
   const attachment = texture.createView();
 
@@ -155,7 +155,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
     passEncoder.draw(3, 1, 0, 0);
     passEncoder.endPass();
 
-    device.defaultQueue.submit([commandEncoder.finish()]);
+    device.queue.submit([commandEncoder.finish()]);
   }
 
   return frame;
@@ -180,7 +180,7 @@ export const glslShaders = {
 export const wgslShaders = {
   vertex: `
 [[location(0)]] var<in> a_position : vec2<f32>;
-# 内置变量，等同于webgl的gl_Position ,wgsl注释以 # 标记，该着色器没有多行注释
+// 内置变量，等同于webgl的gl_Position ,wgsl注释以 // 标记，该着色器没有多行注释
 [[builtin(position)]] var<out> Position : vec4<f32>;
 [[stage(vertex)]]
 fn main() -> void {

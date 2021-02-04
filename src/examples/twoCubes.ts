@@ -99,7 +99,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
       depth: 1
     },
     format: "depth24plus-stencil8",
-    usage: GPUTextureUsage.OUTPUT_ATTACHMENT
+    usage: GPUTextureUsage.RENDER_ATTACHMENT
   });
 
   const renderPassDescriptor: GPURenderPassDescriptor = {
@@ -180,14 +180,14 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
   return function frame() {
     updateTransformationMatrix();
 
-    device.defaultQueue.writeBuffer(
+    device.queue.writeBuffer(
       uniformBuffer,
       0,
       modelViewProjectionMatrix1.buffer,
       modelViewProjectionMatrix1.byteOffset,
       modelViewProjectionMatrix1.byteLength
     );
-    device.defaultQueue.writeBuffer(
+    device.queue.writeBuffer(
       uniformBuffer,
       offset,
       modelViewProjectionMatrix2.buffer,
@@ -210,7 +210,7 @@ export async function init(canvas: HTMLCanvasElement, useWGSL: boolean) {
 
     passEncoder.endPass();
 
-    device.defaultQueue.submit([commandEncoder.finish()]);
+    device.queue.submit([commandEncoder.finish()]);
   }
 }
 
