@@ -134,22 +134,16 @@
         <h1 id="title"><a href="./#" class="nav-link"><%= htmlWebpackPlugin.options.title %></a></h1>
         <a href="https://github.com/FreeGIS/webgpu_learning">Github</a>
         <hr />
-        <p>SPIR-V based samples</p>
         <% for (example of htmlWebpackPlugin.options.examples) { %>
-          <a class="example-link nav-link" href="?wgsl=0#<%= example %>"><%= example %></a>
-        <% } %>
-        <hr />
-        <p>WGSL based samples</p>
-        <% for (example of htmlWebpackPlugin.options.examples) { %>
-          <a class="example-link nav-link" href="?wgsl=1#<%= example %>"><%= example %></a>
+          <a class="example-link nav-link" href="?#<%= example %>"><%= example %></a>
         <% } %>
       </div>
     </div>
     <main class="container">
       <div id="intro-text">
         <h1></h1>
-        <p>The WebGPU Samples are a set of WGSL and SPIR-V compatible samples demonstrating the use of the <a href="//webgpu.dev">WebGPU API</a>.
-        Please see the current implementation status at <a href="//webgpu.io">webgpu.io</a>. SPIR-V compatible samples will be removed when WGSL is fully implemented.</p>
+        <p>The WebGPU Samples are a set of WGSL compatible samples demonstrating the use of the <a href="//webgpu.dev">WebGPU API</a>.
+        Please see the current implementation status at <a href="//webgpu.io">webgpu.io</a>.</p>
 
         <p>These samples run in Chrome Canary behind the flag "--enable-unsafe-webgpu". If something isn't working, please file an
         issue <a href="https://github.com/FreeGIS/webgpu_learning/issues">here</a>.</p>

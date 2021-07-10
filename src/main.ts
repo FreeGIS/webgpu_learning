@@ -1,6 +1,6 @@
 import * as examples from '../gen/exampleLoader';
 import { checkWebGPUSupport } from './helpers';
-import 'webgpu-shader-module-transform';
+
 import { setShaderRegisteredCallback } from "webgpu-live-shader-module";
 
 const mainContainer = document.querySelector('main');
@@ -79,8 +79,7 @@ async function loadExample(hashName: string) {
     canvas.height = 600;
     canvasContainer.appendChild(canvas);
 
-    const useWGSL =
-      new URLSearchParams(window.location.search).get("wgsl") != "0";
+  
 
     const titleNode = document.createElement('h1');
     titleNode.innerHTML = example.title;
@@ -96,7 +95,7 @@ async function loadExample(hashName: string) {
     descriptionNode.innerHTML = example.description;
     descriptionContainer.appendChild(descriptionNode);
 
-    const shaders = useWGSL ? example.wgslShaders : example.glslShaders;
+    const shaders = example.wgslShaders;
     if (!shaders) {
         descriptionContainer.appendChild(document.createElement('br'));
         descriptionContainer.appendChild(document.createElement("br"));
@@ -108,7 +107,7 @@ async function loadExample(hashName: string) {
         return;
     }
 
-    const frame = await example.init(canvas, useWGSL);
+    const frame = await example.init(canvas);
     if (!frame) return;
 
     fetch(`./src/examples/${name}.ts`).then(async res => {
