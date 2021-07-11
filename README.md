@@ -1,17 +1,16 @@
 # WebGPU Samples
 
-The [WebGPU Samples](//austineng.github.io/webgpu-samples/) are a set of WGSL
-and SPIR-V compatible samples demonstrating the use of the
+The [WebGPU Samples](https://github.com/FreeGIS/webgpu_learning) are a set of WGSL
+ compatible samples demonstrating the use of the
 [WebGPU API](//webgpu.dev). Please see the current implementation status at
-[webgpu.io](//webgpu.io). SPIR-V compatible samples will be removed when WGSL
-is fully implemented.
+[webgpu.io](//webgpu.io). 
 
 These samples run in Chrome Canary behind the flag `--enable-unsafe-webgpu`. If
 something isn't working, please file an issue
-[here](https://github.com/austinEng/webgpu-samples/issues).
+[here](https://github.com/FreeGIS/webgpu_learning/issues).
 
 ## Building
-`webgpu-samples` is built with [Typescript](https://www.typescriptlang.org/)
+`webgpu-learning` is built with [Typescript](https://www.typescriptlang.org/)
 and compiled using [webpack](https://webpack.js.org/). Building the project
 requires an installation of [Node.js](https://nodejs.org/en/).
 
@@ -27,6 +26,6 @@ requires an installation of [Node.js](https://nodejs.org/en/).
 
 ```
 npm install
-npm run-script build   # or `npm start` and do the following in a separate terminal
-npm run-script serve
+npm run build   # or `npm start` and do the following in a separate terminal
+npm run serve
 ```
